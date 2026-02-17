@@ -42,11 +42,9 @@ Navigate to the project root and install the required packages:
 
 **Option A – Using Docker (Recommended)**Make sure Docker Desktop is running, then execute:
 
-
 `   docker run --name redis -p 6379:6379 -d redis   `
 
 If the container is already created but stopped:
-
 
 `   docker start redis   `
 
@@ -54,18 +52,15 @@ If the container is already created but stopped:
 
 Open a new terminal window and run:
 
-
 `   npm run worker   `
 
 **Expected Output:**
-
 
 `   Worker connected to Redis  Worker-0 started   `
 
 ### 5️⃣ Start Producer
 
 Open another terminal window and run:
-
 
 `   npm run producer   `
 
@@ -79,12 +74,9 @@ You can test the system by sending a job using curl.
 
 **Command:**
 
-
-
 `   curl -X POST http://localhost:8080/enqueue \  -H "Content-Type: application/json" \  -d "{\"type\":\"send_email\",\"payload\":{\"to\":\"example@test.com\"}}"   `
 
 **Verify Output:**Check your **Worker terminal**, you should see:
-
 
 `   Processing task: send_email   `
 
@@ -101,6 +93,7 @@ You can test the system by sending a job using curl.
     
 *   JSON{ "type": "send\_email", "retries": 3, "payload": { "to": "user@example.com", "subject": "Hello World" }}
     
+<img width="820" height="230" alt="image" src="https://github.com/user-attachments/assets/3a76fb29-5c8d-4bbc-aadb-faac3f632bea" />
 
 ### Worker Service
 
@@ -130,4 +123,5 @@ Contributing:
 
 Pull requests are welcome. For major changes, please open an issue first
 to discuss what you would like to change.
+
 
