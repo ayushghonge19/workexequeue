@@ -18,6 +18,8 @@ This system handles the processing and execution of background tasks asynchronou
 
 **Example:** Instead of making a user wait for a "Welcome Email" to be sent during login, the system adds a send\_email task to the queue. The **Worker** picks it up and processes it in the background, allowing the user to proceed immediately.
 
+<img width="489" height="965" alt="image" src="https://github.com/user-attachments/assets/74056481-a636-4c0f-8f94-05e2dad2c2c1" />
+
 🛠️ Getting Started
 -------------------
 
@@ -121,5 +123,6 @@ You can test the system by sending a job using curl.
 *   **Logs:** Execution details are saved to success.log and failure.log in the root directory.
     
 *   **Metrics:** The worker exposes a simple metrics endpoint (default port 4000) at /metrics to track jobs\_done and jobs\_failed.
+
 
 
