@@ -124,5 +124,10 @@ You can test the system by sending a job using curl.
     
 *   **Metrics:** The worker exposes a simple metrics endpoint (default port 4000) at /metrics to track jobs\_done and jobs\_failed.
 
+Built By Ayush Ghonge
 
+Contributing:
+
+Pull requests are welcome. For major changes, please open an issue first
+to discuss what you would like to change.
 
