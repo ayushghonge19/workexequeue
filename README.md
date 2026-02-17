@@ -5,10 +5,19 @@ A Distributed Background Task Processing System written in **Node.js**, using **
 
 📂 Project Structure
 --------------------
+workexequeue/
+├── internal/
+│   ├── logger.js       # File-based logging utilities
+│   └── task.js         # Task schema definition
+├── producer/
+│   └── server.js       # Express HTTP server exposing /enqueue
+├── worker/
+│   ├── processor.js    # Business logic dispatcher
+│   └── worker.js       # Task consumer with configurable concurrency
+├── .env                # Environment variables
+├── package.json
+└── README.md
 
-Plaintext
-
-Plain textANTLR4BashCC#CSSCoffeeScriptCMakeDartDjangoDockerEJSErlangGitGoGraphQLGroovyHTMLJavaJavaScriptJSONJSXKotlinLaTeXLessLuaMakefileMarkdownMATLABMarkupObjective-CPerlPHPPowerShell.propertiesProtocol BuffersPythonRRubySass (Sass)Sass (Scss)SchemeSQLShellSwiftSVGTSXTypeScriptWebAssemblyYAMLXML`   workexequeue/  ├── internal/  │   ├── logger.js       # File-based logging utilities  │   └── task.js         # Task schema definition  ├── producer/  │   └── server.js       # Express HTTP server exposing /enqueue  ├── worker/  │   ├── processor.js    # Business logic dispatcher  │   └── worker.js       # Task consumer with configurable concurrency  ├── .env                # Environment variables  ├── package.json  └── README.md   `
 
 🚀 High Level Overview
 ----------------------
@@ -37,7 +46,7 @@ Navigate to the project root and install the required packages:
 
 Bash
 
-Plain textANTLR4BashCC#CSSCoffeeScriptCMakeDartDjangoDockerEJSErlangGitGoGraphQLGroovyHTMLJavaJavaScriptJSONJSXKotlinLaTeXLessLuaMakefileMarkdownMATLABMarkupObjective-CPerlPHPPowerShell.propertiesProtocol BuffersPythonRRubySass (Sass)Sass (Scss)SchemeSQLShellSwiftSVGTSXTypeScriptWebAssemblyYAMLXML`   npm install   `
+`   npm install   `
 
 ### 3️⃣ Start Redis
 
@@ -45,41 +54,36 @@ Plain textANTLR4BashCC#CSSCoffeeScriptCMakeDartDjangoDockerEJSErlangGitGoGraphQL
 
 Bash
 
-Plain textANTLR4BashCC#CSSCoffeeScriptCMakeDartDjangoDockerEJSErlangGitGoGraphQLGroovyHTMLJavaJavaScriptJSONJSXKotlinLaTeXLessLuaMakefileMarkdownMATLABMarkupObjective-CPerlPHPPowerShell.propertiesProtocol BuffersPythonRRubySass (Sass)Sass (Scss)SchemeSQLShellSwiftSVGTSXTypeScriptWebAssemblyYAMLXML`   docker run --name redis -p 6379:6379 -d redis   `
+`   docker run --name redis -p 6379:6379 -d redis   `
 
 If the container is already created but stopped:
 
 Bash
-
-Plain textANTLR4BashCC#CSSCoffeeScriptCMakeDartDjangoDockerEJSErlangGitGoGraphQLGroovyHTMLJavaJavaScriptJSONJSXKotlinLaTeXLessLuaMakefileMarkdownMATLABMarkupObjective-CPerlPHPPowerShell.propertiesProtocol BuffersPythonRRubySass (Sass)Sass (Scss)SchemeSQLShellSwiftSVGTSXTypeScriptWebAssemblyYAMLXML`   docker start redis   `
+`   docker start redis   `
 
 ### 4️⃣ Start Worker
 
 Open a new terminal window and run:
 
 Bash
-
-Plain textANTLR4BashCC#CSSCoffeeScriptCMakeDartDjangoDockerEJSErlangGitGoGraphQLGroovyHTMLJavaJavaScriptJSONJSXKotlinLaTeXLessLuaMakefileMarkdownMATLABMarkupObjective-CPerlPHPPowerShell.propertiesProtocol BuffersPythonRRubySass (Sass)Sass (Scss)SchemeSQLShellSwiftSVGTSXTypeScriptWebAssemblyYAMLXML`   npm run worker   `
+`   npm run worker   `
 
 **Expected Output:**
 
 Plaintext
-
-Plain textANTLR4BashCC#CSSCoffeeScriptCMakeDartDjangoDockerEJSErlangGitGoGraphQLGroovyHTMLJavaJavaScriptJSONJSXKotlinLaTeXLessLuaMakefileMarkdownMATLABMarkupObjective-CPerlPHPPowerShell.propertiesProtocol BuffersPythonRRubySass (Sass)Sass (Scss)SchemeSQLShellSwiftSVGTSXTypeScriptWebAssemblyYAMLXML`   Worker connected to Redis  Worker-0 started   `
+`   Worker connected to Redis  Worker-0 started   `
 
 ### 5️⃣ Start Producer
 
 Open another terminal window and run:
 
 Bash
-
-Plain textANTLR4BashCC#CSSCoffeeScriptCMakeDartDjangoDockerEJSErlangGitGoGraphQLGroovyHTMLJavaJavaScriptJSONJSXKotlinLaTeXLessLuaMakefileMarkdownMATLABMarkupObjective-CPerlPHPPowerShell.propertiesProtocol BuffersPythonRRubySass (Sass)Sass (Scss)SchemeSQLShellSwiftSVGTSXTypeScriptWebAssemblyYAMLXML`   npm run producer   `
+`   npm run producer   `
 
 **Expected Output:**
 
 Plaintext
-
-Plain textANTLR4BashCC#CSSCoffeeScriptCMakeDartDjangoDockerEJSErlangGitGoGraphQLGroovyHTMLJavaJavaScriptJSONJSXKotlinLaTeXLessLuaMakefileMarkdownMATLABMarkupObjective-CPerlPHPPowerShell.propertiesProtocol BuffersPythonRRubySass (Sass)Sass (Scss)SchemeSQLShellSwiftSVGTSXTypeScriptWebAssemblyYAMLXML`   Producer connected to Redis  Producer running on port 8080   `
+`   Producer connected to Redis  Producer running on port 8080   `
 
 ### 6️⃣ Enqueue a Job
 
@@ -89,13 +93,13 @@ You can test the system by sending a job using curl.
 
 Bash
 
-Plain textANTLR4BashCC#CSSCoffeeScriptCMakeDartDjangoDockerEJSErlangGitGoGraphQLGroovyHTMLJavaJavaScriptJSONJSXKotlinLaTeXLessLuaMakefileMarkdownMATLABMarkupObjective-CPerlPHPPowerShell.propertiesProtocol BuffersPythonRRubySass (Sass)Sass (Scss)SchemeSQLShellSwiftSVGTSXTypeScriptWebAssemblyYAMLXML`   curl -X POST http://localhost:8080/enqueue \  -H "Content-Type: application/json" \  -d "{\"type\":\"send_email\",\"payload\":{\"to\":\"example@test.com\"}}"   `
+`   curl -X POST http://localhost:8080/enqueue \  -H "Content-Type: application/json" \  -d "{\"type\":\"send_email\",\"payload\":{\"to\":\"example@test.com\"}}"   `
 
 **Verify Output:**Check your **Worker terminal**, you should see:
 
 Plaintext
 
-Plain textANTLR4BashCC#CSSCoffeeScriptCMakeDartDjangoDockerEJSErlangGitGoGraphQLGroovyHTMLJavaJavaScriptJSONJSXKotlinLaTeXLessLuaMakefileMarkdownMATLABMarkupObjective-CPerlPHPPowerShell.propertiesProtocol BuffersPythonRRubySass (Sass)Sass (Scss)SchemeSQLShellSwiftSVGTSXTypeScriptWebAssemblyYAMLXML`   Processing task: send_email   `
+`   Processing task: send_email   `
 
 📡 Services & API
 -----------------
@@ -132,3 +136,4 @@ Plain textANTLR4BashCC#CSSCoffeeScriptCMakeDartDjangoDockerEJSErlangGitGoGraphQL
 *   **Logs:** Execution details are saved to success.log and failure.log in the root directory.
     
 *   **Metrics:** The worker exposes a simple metrics endpoint (default port 4000) at /metrics to track jobs\_done and jobs\_failed.
+
